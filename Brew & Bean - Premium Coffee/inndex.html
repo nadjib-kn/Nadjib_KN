@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brew & Bean - Premium Coffee</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        :root {
+            --primary-brown: #8B4513;
+            --dark-brown: #5D2F0A;
+            --cream: #F5F5DC;
+            --gold: #D4AF37;
+            --dark-gray: #2C2C2C;
+            --light-gray: #F8F8F8;
+            --white: #FFFFFF;
+        }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-gray);
+        }
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            z-index: 1000;
+        }
+        nav.scrolled {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-brown);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover {
+            color: var(--primary-brown);
+        }
+        .hamburger {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary-brown);
+        }
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=2000&q=80') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            color: var(--white);
+            z-index: 2;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        .cta-button {
+            padding: 0.8rem 2rem;
+            background: var(--gold);
+            color: var(--dark-brown);
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+        /* General Section Styles */
+        section {
+            padding: 5rem 2rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--dark-brown);
+            margin-bottom: 2rem;
+        }
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+        .about-text h3 {
+            font-size: 1.8rem;
+            color: var(--primary-brown);
+            margin-bottom: 1rem;
+        }
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        /* Stats Section */
+        .stats {
+            background: var(--dark-brown);
+            color: var(--cream);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            text-align: center;
+        }
+        .stat-item {
+            padding: 1rem;
+        }
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        /* Features Section */
+        .features {
+            background: var(--cream);
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        .feature-card {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-brown);
+            margin-bottom: 1rem;
+        }
+        /* Products Section */
+        .products {
+            background: var(--light-gray);
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .product-card {
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .product-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        .product-content {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .price {
+            font-size: 1.3rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        .add-to-cart {
+            background: var(--primary-brown);
+            color: var(--white);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .add-to-cart:hover {
+            background: var(--dark-brown);
+        }
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .gallery-item {
+            height: 250px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+        }
+        /* Contact Section */
+        .contact {
+            background: var(--dark-brown);
+            color: var(--cream);
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .contact-info h3 {
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--cream);
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border: 1px solid var(--gold);
+        }
+        .submit-btn {
+            background: var(--gold);
+            color: var(--dark-brown);
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        /* Footer */
+        footer {
+            background: var(--dark-gray);
+            color: var(--cream);
+            padding: 2rem;
+            text-align: center;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .footer-section h4 {
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        .footer-section a {
+            color: var(--cream);
+            text-decoration: none;
+        }
+        .footer-section a:hover {
+            color: var(--gold);
+        }
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .social-icons a {
+            color: var(--gold);
+            font-size: 1.2rem;
+        }
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: var(--white);
+                padding: 1rem;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .about-grid, .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="logo"><i class="fas fa-coffee"></i> Brew & Bean</div>
+            <i class="fas fa-bars hamburger" onclick="toggleMenu()"></i>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Premium Coffee Experience</h1>
+            <p>Discover the art of perfect brewing with our curated beans.</p>
+            <a href="#products" class="cta-button">Explore Our Coffee</a>
+        </div>
+    </section>
+    <!-- About Section -->
+    <section class="about fade-in" id="about">
+        <div class="container">
+            <h2 class="section-title">Our Story</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>Crafted with Passion</h3>
+                    <p>At Brew & Bean, we source sustainable beans, roasted fresh to deliver quality in every cup.</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1000&q=80" alt="Coffee beans">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Stats Section -->
+    <section class="stats fade-in">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-globe"></i></div>
+                    <div class="stat-number">0</div>
+                    <div>Countries</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-fire"></i></div>
+                    <div class="stat-number">0</div>
+                    <div>Cups Served</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number">0</div>
+                    <div>Happy Customers</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon"><i class="fas fa-award"></i></div>
+                    <div class="stat-number">0</div>
+                    <div>Awards Won</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Features Section -->
+    <section class="features fade-in">
+        <div class="container">
+            <h2 class="section-title">Why Choose Us</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+                    <h3>Sustainable Sourcing</h3>
+                    <p>Fair trade practices and environmental sustainability in every bean.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-fire-flame-curved"></i></div>
+                    <h3>Expert Roasting</h3>
+                    <p>Master roasters craft unique flavors with precision.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-truck"></i></div>
+                    <h3>Fresh Delivery</h3>
+                    <p>Roasted and delivered within 48 hours for maximum freshness.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Products Section -->
+    <section class="products fade-in" id="products">
+        <div class="container">
+            <h2 class="section-title">Our Signature Blends</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=1000&q=80')"></div>
+                    <div class="product-content">
+                        <h3>Morning Roast</h3>
+                        <p>Bright blend with citrus and chocolate notes.</p>
+                        <div class="price">$18.99</div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1000&q=80')"></div>
+                    <div class="product-content">
+                        <h3>Evening Blend</h3>
+                        <p>Smooth with vanilla and caramel hints.</p>
+                        <div class="price">$22.99</div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+                <div class="product-card">
+                    <div class="product-image" style="background-image: url('https://images.unsplash.com/photo-1497515114629-f71d768fd07c?auto=format&fit=crop&w=1000&q=80')"></div>
+                    <div class="product-content">
+                        <h3>Espresso Supreme</h3>
+                        <p>Bold and intense with rich crema.</p>
+                        <div class="price">$24.99</div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Gallery Section -->
+    <section class="gallery fade-in" id="gallery">
+        <div class="container">
+            <h2 class="section-title">Coffee Moments</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=1000&q=80')"></div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&w=1000&q=80')"></div>
+                <div class="gallery-item" style="background-image: url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1000&q=80')"></div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section -->
+    <section class="contact fade-in" id="contact">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Visit Our Café</h3>
+                    <p>123 Coffee Street, Bean City, BC 12345</p>
+                    <h3>Contact Us</h3>
+                    <p>Phone: (555) 123-BREW<br>Email: hello@brewandbean.com</p>
+                </div>
+                <form class="contact-form" onsubmit="submitForm(event)">
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <textarea rows="4" placeholder="Your Message" required></textarea>
+                    <button type="submit" class="submit-btn">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About Brew & Bean</h4>
+                <p>Premium coffee roasted fresh daily.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#products">Products</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>&copy; 2025 Brew & Bean.</p>
+    </footer>
+    <script>
+        // Hamburger Menu Toggle
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 100);
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', e => {
+                e.preventDefault();
+                document.querySelector(anchor.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+                if (window.innerWidth <= 768) {
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+
+        // Fade-in Animation with Stats Counter
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.classList.contains('stats')) {
+                        animateStats();
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Stats Animation
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            const targets = ['25+', '100K+', '50K+', '15'];
+            statNumbers.forEach((stat, index) => {
+                const target = targets[index];
+                const isPlus = target.includes('+');
+                const isK = target.includes('K');
+                let finalNum = parseInt(target.replace(/[^\d]/g, ''));
+                if (isK) finalNum *= 1000;
+                let current = 0;
+                const increment = finalNum / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= finalNum) {
+                        current = finalNum;
+                        clearInterval(timer);
+                    }
+                    let display = Math.floor(current);
+                    if (isK && display >= 1000) {
+                        display = Math.floor(display / 1000) + 'K';
+                    }
+                    if (isPlus) display += '+';
+                    stat.textContent = display;
+                }, 30);
+            });
+        }
+
+        // Cart Counter
+        let cartCount = 0;
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', () => {
+                cartCount++;
+                const logo = document.querySelector('.logo');
+                let cartIndicator = document.querySelector('.cart-indicator');
+                if (!cartIndicator) {
+                    cartIndicator = document.createElement('span');
+                    cartIndicator.className = 'cart-indicator';
+                    cartIndicator.style.cssText = `
+                        background: var(--gold);
+                        color: var(--dark-brown);
+                        border-radius: 50%;
+                        width: 20px;
+                        height: 20px;
+                        font-size: 0.8rem;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        position: absolute;
+                        top: -5px;
+                        right: -10px;
+                    `;
+                    logo.style.position = 'relative';
+                    logo.appendChild(cartIndicator);
+                }
+                cartIndicator.textContent = cartCount;
+                showNotification('Added to cart!');
+            });
+        });
+
+        // Contact Form
+        function submitForm(event) {
+            event.preventDefault();
+            const button = event.target.querySelector('.submit-btn');
+            button.innerHTML = 'Sending...';
+            button.disabled = true;
+            setTimeout(() => {
+                showNotification('Message sent successfully!');
+                event.target.reset();
+                button.innerHTML = 'Send Message';
+                button.disabled = false;
+            }, 1000);
+        }
+
+        // Notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: var(--gold);
+                color: var(--dark-brown);
+                padding: 0.8rem 1.5rem;
+                border-radius: 5px;
+                z-index: 1000;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            `;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                setTimeout(() => {
+                    notification.style.opacity = '0';
+                    setTimeout(() => document.body.removeChild(notification), 300);
+                }, 2000);
+            }, 100);
+        }
+    </script>
+</body>
+</html>
